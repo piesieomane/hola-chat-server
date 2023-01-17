@@ -8,7 +8,7 @@
     "prisma-migrate": "npx prisma migrate dev --name init",
     "prisma-generate": "npx prisma generate",
     "start": "npm prisma-migrate && node dist/server.js",
-    "dev": "concurrently \"npx tsc --watch\" \"nodemon -q dist/index.js\"",
+    "dev": "tsnd --respawn server.ts",
     "build": "npx tsc"
   },
   "repository": {
@@ -36,8 +36,14 @@
   },
   "dependencies": {
     "@prisma/client": "^4.8.1",
+    "@types/bcryptjs": "^2.4.2",
+    "@types/jsonwebtoken": "^9.0.1",
+    "bcryptjs": "^2.4.3",
     "cors": "^2.8.5",
     "dotenv": "^16.0.3",
-    "express": "^4.18.2"
+    "envalid": "^7.3.1",
+    "express": "^4.18.2",
+    "express-validator": "^6.14.2",
+    "jsonwebtoken": "^9.0.0"
   }
 }
