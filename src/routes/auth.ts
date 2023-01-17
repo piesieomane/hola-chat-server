@@ -1,6 +1,6 @@
 import { Router } from 'express';
 import { check } from 'express-validator';
-import { login, signup } from '../controllers/auth';
+import { login, signup, getUsers } from '../controllers/auth';
 
 const router = Router();
 
@@ -8,7 +8,7 @@ const router = Router();
 // @desc    Authenticate user and get token
 // @access  Public
 router.post(
-  '/auth',
+  '/login',
   [
     check('email', 'Please include a valid email').isEmail(),
     check('password', 'Password is required').exists(),
@@ -30,5 +30,7 @@ router.post(
   ],
   signup
 );
+
+router.get('/', getUsers);
 
 export default router;

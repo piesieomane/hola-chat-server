@@ -9,20 +9,21 @@ import { errorHandler } from './src/misc/globalErrorHandler';
 
 const app: Express = express();
 
-//allow cors
-app.use(
-  cors({
-    origin: '*',
-  })
-);
-
 //add middleWares
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 //add routes
-app.use('api/users', authRouter);
+app.use('/api/users', authRouter);
 app.use(errorHandler);
+
+//allow cors
+app.use(cors({ origin: '*' }));
+
+//dummy route
+app.get('/', (req, res) => {
+  res.send('grggrg');
+});
 
 async function main() {
   await prisma.$connect();

@@ -121,3 +121,18 @@ export const login = async (
     return next(err);
   }
 };
+
+//get all users
+export const getUsers = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const users = await prisma.user.findMany();
+    res.json(users);
+  } catch (error) {
+    console.error(error);
+    return next(error);
+  }
+};
