@@ -1,4 +1,5 @@
 import { Request, Response, NextFunction } from 'express';
+import { Prisma } from '@prisma/client';
 import { prisma } from '../db';
 
 export const getMessages = async (
@@ -40,6 +41,12 @@ export const sendMessage = async (
     });
     res.json(message);
   } catch (error) {
+    if (error instanceof Prisma.PrismaClientKnownRequestError) {
+      // P2002 error code is related to Prisma's "Connect Error: No node found" error
+      if (error.code === 'P2025') {
+        return res.status(404).json({ error: 'User not found' });
+      }
+    }
     console.error(error);
     return next(error);
   }
