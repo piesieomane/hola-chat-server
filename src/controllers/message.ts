@@ -20,6 +20,12 @@ export const getMessages = async (
     });
     res.json(messages);
   } catch (error) {
+    if (error instanceof Prisma.PrismaClientKnownRequestError) {
+      // P2025 is an error code related to  "No 'User' record(s) (needed to inline the relation on 'Message' record(s)) was found for a nested connect on one-to-many relation 'message_receiver'."
+      if (error.code === 'P2025') {
+        return res.status(404).json({ error: 'User not found' });
+      }
+    }
     console.error(error);
     return next(error);
   }
