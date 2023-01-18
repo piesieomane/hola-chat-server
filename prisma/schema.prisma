@@ -24,7 +24,7 @@ model User {
 }
 
 model BlackList {
-  id Int @id
+  id Int @id @default(autoincrement())
   blackListerId Int
   blackLister User @relation("blackLister", fields: [blackListerId], references: [id])
   blackListeeId Int
@@ -32,7 +32,7 @@ model BlackList {
 }
 
 model Message {
-  id            Int   @id
+  id            Int   @id @default(autoincrement())
   text          String
   createdAt     DateTime  @default(now())
   senderId      Int
