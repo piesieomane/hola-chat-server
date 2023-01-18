@@ -8,14 +8,11 @@ export const getMessages = async (
   next: NextFunction
 ) => {
   //get messages between two users
-  const { senderId, receiverId } = req.body;
+  const { userId } = req.body;
   try {
     const messages = await prisma.message.findMany({
       where: {
-        OR: [
-          { senderId, receiverId },
-          { senderId: receiverId, receiverId: senderId },
-        ],
+        OR: [{ senderId: +userId }, { receiverId: +userId }],
       },
     });
     res.json(messages);
@@ -42,7 +39,7 @@ export const sendMessage = async (
     res.json(message);
   } catch (error) {
     if (error instanceof Prisma.PrismaClientKnownRequestError) {
-      // P2002 error code is related to Prisma's "Connect Error: No node found" error
+      // P2025 is an error code related to  "No 'User' record(s) (needed to inline the relation on 'Message' record(s)) was found for a nested connect on one-to-many relation 'message_receiver'."
       if (error.code === 'P2025') {
         return res.status(404).json({ error: 'User not found' });
       }
