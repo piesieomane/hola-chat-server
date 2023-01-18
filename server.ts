@@ -3,6 +3,7 @@ dotenv.config();
 import express, { Express } from 'express';
 import cors from 'cors';
 import authRouter from './src/routes/auth';
+import messageRouter from './src/routes/message';
 import { prisma } from './src/db/index';
 import { env } from './src/misc/env';
 import { errorHandler } from './src/misc/globalErrorHandler';
@@ -15,6 +16,7 @@ app.use(express.urlencoded({ extended: true }));
 
 //add routes
 app.use('/api/users', authRouter);
+app.use('/api/messages', messageRouter);
 app.use(errorHandler);
 
 //allow cors

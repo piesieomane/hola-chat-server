@@ -33,8 +33,8 @@ export const sendMessage = async (
   try {
     const message = await prisma.message.create({
       data: {
-        senderId,
-        receiverId,
+        sender: { connect: { id: +senderId } },
+        receiver: { connect: { id: +receiverId } },
         text,
       },
     });
