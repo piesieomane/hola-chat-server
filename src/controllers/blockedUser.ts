@@ -37,13 +37,19 @@ export const getBlockedUsers = async (
   next: NextFunction
 ) => {
   const { blackListerId } = req.params;
+  console.log('fsdfgdfgfg', blackListerId);
   try {
     const blockedUsers = await prisma.blackList.findMany({
       where: {
         blackListerId: +blackListerId,
       },
+      select: { blackListee: true },
     });
-    res.json(blockedUsers);
+    const filteredBlockedUsers = blockedUsers.map((user) => {
+      const { password, status, ...filteredUser } = user.blackListee;
+      return filteredUser;
+    });
+    res.json(filteredBlockedUsers);
   } catch (error) {
     if (error instanceof Prisma.PrismaClientKnownRequestError) {
       // P2025 is an error code related to  "No 'User' record(s) (needed to inline the relation on 'Message' record(s)) was found for a nested connect on one-to-many relation 'message_receiver'."

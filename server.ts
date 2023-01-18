@@ -7,6 +7,7 @@ import messageRouter from './src/routes/message';
 import { prisma } from './src/db/index';
 import { env } from './src/misc/env';
 import { errorHandler } from './src/misc/globalErrorHandler';
+import blockUserRouter from './src/routes/blockedUser';
 
 const app: Express = express();
 
@@ -17,6 +18,7 @@ app.use(express.urlencoded({ extended: true }));
 //add routes
 app.use('/api/users', authRouter);
 app.use('/api/messages', messageRouter);
+app.use('/api/blockedUser', blockUserRouter);
 app.use(errorHandler);
 
 //allow cors
