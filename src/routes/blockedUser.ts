@@ -1,4 +1,5 @@
 import { Router } from 'express';
+import { getBlockedUsers, blockUser } from '../controllers/blockedUser';
 
 const router = Router();
 
