@@ -8,11 +8,14 @@ export const getMessages = async (
   next: NextFunction
 ) => {
   //get messages between two users
-  const { userId } = req.body;
+  const { userId1, userId2 } = req.body;
   try {
     const messages = await prisma.message.findMany({
       where: {
-        OR: [{ senderId: +userId }, { receiverId: +userId }],
+        AND: [
+          { OR: [{ senderId: +userId1 }, { senderId: +userId2 }] },
+          { OR: [{ receiverId: +userId1 }, { receiverId: +userId2 }] },
+        ],
       },
     });
     res.json(messages);
